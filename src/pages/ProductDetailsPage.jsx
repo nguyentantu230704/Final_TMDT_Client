@@ -16,9 +16,6 @@ export default function ProductDetailsPage() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
 
-  // URL sản phẩm hiện tại
-  const productUrl = window.location.href;
-
   useEffect(() => {
     (async () => {
       const resp = await api.fetchProduct(id);
@@ -28,6 +25,9 @@ export default function ProductDetailsPage() {
       setProduct(resp);
     })();
   }, [id]);
+
+  // URL sản phẩm hiện tại
+  const shareUrl = `https://final-tmdt.onrender.com/product/${id}/share`;
 
   const addToCart = async (e, quantity = 1) => {
     if (user) {
@@ -50,26 +50,6 @@ export default function ProductDetailsPage() {
 
   return (
     <>
-      {/* ====== Meta Open Graph cho mạng xã hội ====== */}
-      <Helmet>
-        <title>{product.title} - Shop ABC</title>
-        <meta name="description" content={product.description} />
-
-        {/* Open Graph */}
-        <meta property="og:title" content={product.title} />
-        <meta property="og:description" content={product.description} />
-        <meta property="og:image" content={product.image} />
-        <meta property="og:url" content={productUrl} />
-        <meta property="og:type" content="product" />
-        <meta property="og:site_name" content="Shop ABC" />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={product.title} />
-        <meta name="twitter:description" content={product.description} />
-        <meta name="twitter:image" content={product.image} />
-      </Helmet>
-
       <main className="relative mb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 py-8 px-4">
           <section className="flex items-center max-h-2xl overflow-hidden my-10 sm:mx-0">
@@ -96,13 +76,12 @@ export default function ProductDetailsPage() {
             {/* Nút share Facebook */}
             <a
               href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                productUrl
+                shareUrl
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="sm:max-w-xs text-base flex items-center justify-center mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
             >
-              <Share2 className="mr-2" /> Share on Facebook
+              Share Facebook
             </a>
           </section>
         </div>
